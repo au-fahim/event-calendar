@@ -5,27 +5,32 @@ import { createContext, useState } from "react"
 export const CalendarContext = createContext()
 
 let dt = new Date(),
-  month = dt.getMonth(),
+  currMonth = dt.getMonth(),
   date = dt.getDate(),
   year = dt.getFullYear();
-
-const firstDayOfMonth = new Date(year, month, 1);
-const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-
-// GET WEEK SHORT NAME (Sat, Sun, Mon, etc.)
-  const monthLongString = firstDayOfMonth.toLocaleDateString("en-us", { month: "long" }),
-    monthShortString = firstDayOfMonth.toLocaleDateString("en-us", { month: "short"}),
-    weekLongString = firstDayOfMonth.toLocaleDateString("en-us", { weekday: "long" }),
-    weekShortString = firstDayOfMonth.toLocaleDateString("en-us", { weekday: "short" });
-
-export default function CalendarProvider({ children }) {
-  const [currDate, setCurrDate] = useState({ dt, month, date, year });
-  const [dateString, setDateString] = useState({monthShortString, monthLongString, weekShortString, weekLongString})
+  
+  export default function CalendarProvider({ children }) {
+  const [month, setMonth] = useState(currMonth);
+  
+  const firstDayOfMonth = new Date(year, month, 1);
+  const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+  
+  // GET WEEK SHORT NAME (Sat, Sun, Mon, etc.)
+  const weekShortString = firstDayOfMonth.toLocaleDateString("en-us", {
+      weekday: "short",
+    })
+  
+  // const increaseMonth = () => {
+  //   setCurrDate((prev) => {
+  //     return { ...prev, "month": (month += 1) };
+  //   });
+  // };
+  // const decreaseMonth = () => {};
 
   let calendarValue = {
-    currDate,
-    setCurrDate,
-    dateString,
+    month,
+    setMonth,
+    weekShortString,
     firstDayOfMonth,
     lastDateOfMonth,
   };

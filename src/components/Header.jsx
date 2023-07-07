@@ -17,9 +17,8 @@ import { CalendarContext } from "@/context/CalendarContext";
 export default function Header() {
   const calendarDate = useContext(CalendarContext);
 
-  let { currDate, setCurrDate, dateString, firstDayOfMonth } = calendarDate;
-  let { dt, month, date, year } = currDate;
-  let { monthLongString } = dateString;
+  let { month, setMonth, weekShortString, firstDayOfMonth, lastDateOfMonth } =
+    calendarDate;
 
   return (
     <header className="border-b sticky top-0 bg-white">
@@ -42,9 +41,7 @@ export default function Header() {
             <div className="flex flex-row gap-4 items-center">
               {/* GO TO TODAY BUTTON */}
               <button
-                onClick={() =>
-                  setCurrDate({ ...currDate, month: new Date().getMonth() })
-                }
+                onClick={() => setMonth(new Date().getMonth())}
                 className="text-btn"
               >
                 Today
@@ -54,9 +51,7 @@ export default function Header() {
               <div className="flex flex-row gap-1">
                 {/* SWITCH TO PREVIOUS MONTH */}
                 <button
-                  onClick={() =>
-                    setCurrDate({ ...currDate, month: (month -= 1) })
-                  }
+                  onClick={() => setMonth((month -= 1))}
                   className="icon-btn"
                 >
                   <HiOutlineChevronLeft />
@@ -64,9 +59,7 @@ export default function Header() {
 
                 {/* SWITCH TO NEXT MONTH */}
                 <button
-                  onClick={() =>
-                    setCurrDate({ ...currDate, month: (month += 1) })
-                  }
+                  onClick={() => setMonth((month += 1))}
                   className="icon-btn"
                 >
                   <HiOutlineChevronRight />
@@ -75,7 +68,7 @@ export default function Header() {
 
               {/* CURRENT MONTH STATUS */}
               <h1>
-                {monthLongString} {year}
+                {/* {monthLongString} {year} */}
               </h1>
             </div>
 

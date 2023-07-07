@@ -6,20 +6,19 @@ import { useContext } from "react"
 export default function MonthCalendar() {
   const calendarDate = useContext(CalendarContext)
 
-  let { currDate, setCurrDate, dateString, firstDayOfMonth, lastDateOfMonth } =
+  let { month, setMonth, weekShortString, firstDayOfMonth, lastDateOfMonth } =
     calendarDate;
-
-  let { dt, month, date, year } = currDate
-  let { weekShortString } = dateString;
   
 
-  const weekNames = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]
+  const weekNames = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
   // const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   // const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
 
   const lastDaysOfPrevMonth = weekNames.indexOf(weekShortString);
 
+  console.log(lastDaysOfPrevMonth);
+  console.log(weekShortString);
 
 
   return (
@@ -38,13 +37,18 @@ export default function MonthCalendar() {
 
         <main className="grid grid-cols-7">
           {Array.from({ length: lastDaysOfPrevMonth }).map((_, index) => (
-            <div key={index}></div>
+            <div
+              key={index}
+              className={`h-36 border-r border-b bg-transparent select-none`}
+            ></div>
           ))}
 
           {Array.from({ length: lastDateOfMonth }).map((_, index) => (
             <div
               key={index}
-              className={`h-36 border-r border-b hover:bg-slate-50 ${index + 1 === date && 'bg-slate-50 font-bold'}`}
+              className={`h-36 border-r border-b hover:bg-slate-50 ${
+                index + 1 === new Date().getDate() && "bg-slate-50 font-bold"
+              }`}
             >
               <h1 className="py-2 px-3 text-sm md:text-base">{index + 1}</h1>
             </div>
