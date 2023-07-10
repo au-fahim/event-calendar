@@ -17,16 +17,26 @@ import { CalendarContext } from "@/context/CalendarContext";
 export default function Header() {
   const calendarDate = useContext(CalendarContext);
 
-  let { month, setMonth, weekShortString, firstDayOfMonth, lastDateOfMonth } =
-    calendarDate;
+  let {
+    nav,
+    setNav,
+    dt,
+    currMonth,
+    currYear,
+    monthNames,
+    weekShortString,
+    monthLongString,
+    firstDayOfMonth,
+    lastDateOfMonth,
+  } = calendarDate;
 
   return (
     <header className="border-b sticky top-0 bg-white">
       <MainWrapper>
-        <div className="flex flex-row gap-20 h-14">
+        <div className="flex flex-row gap-10 lg:gap-20 h-14">
           {/* LOGO */}
           <div className="grow-0 flex flex-row gap-4 items-center">
-            <div className="lg:hidden">
+            <div className="md:hidden">
               <HiOutlineMenu size={24} />
             </div>
 
@@ -39,9 +49,9 @@ export default function Header() {
           {/* CURRENT DATE STATUS */}
           <nav className="grow flex flex-row justify-between items-center">
             <div className="flex flex-row gap-4 items-center">
-              {/* GO TO TODAY BUTTON */}
+              {/* GO TO TODAY's DATE */}
               <button
-                onClick={() => setMonth(new Date().getMonth())}
+                onClick={() => setNav(0)}
                 className="text-btn"
               >
                 Today
@@ -50,26 +60,22 @@ export default function Header() {
               {/* MONTH LEFT RIGHT SWITCH BUTTON */}
               <div className="flex flex-row gap-1">
                 {/* SWITCH TO PREVIOUS MONTH */}
-                <button
-                  onClick={() => setMonth((month -= 1))}
-                  className="icon-btn"
-                >
+                <button onClick={() => setNav((nav -= 1))} className="icon-btn">
                   <HiOutlineChevronLeft />
                 </button>
 
                 {/* SWITCH TO NEXT MONTH */}
-                <button
-                  onClick={() => setMonth((month += 1))}
-                  className="icon-btn"
-                >
+                <button onClick={() => setNav((nav += 1))} className="icon-btn">
                   <HiOutlineChevronRight />
                 </button>
               </div>
 
               {/* CURRENT MONTH STATUS */}
               <h1>
-                {/* {monthLongString} {year} */}
+                {monthLongString} {currYear}
               </h1>
+
+              
             </div>
 
             <div className="flex flex-row gap-4 items-center">

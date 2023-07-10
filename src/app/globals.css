@@ -36,7 +36,11 @@ body {
     @apply py-2 px-2 bg-white hover:bg-slate-50 border rounded-md
   }
 
+  .icon-btn svg {
+    @apply stroke-gray-500
+  }
+
   .active-nav-btn {
-    @apply bg-white border
+    @apply bg-white text-black border
   }
 }
