@@ -1,15 +1,57 @@
-import { HiX, HiCheckCircle } from "react-icons/hi";
+"use client"
+
+import { EventContext } from "@/context/EventContext";
+import { useContext, useEffect, useState } from "react";
+import { HiX, HiCheckCircle, HiOutlineClock } from "react-icons/hi";
+
+// const time = new Date().getTime();
 
 export default function CreateEventForm({
-  headerText,
-  submitBtnText,
   setModalShow,
+  selectedDate,
 }) {
+  const eventContext = useContext(EventContext);
+  const { eventsData, addEvent, updateEvent, removeEvent } = eventContext
+
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("")
+  const [desc, setDesc] = useState("")
+  const [time, setTime] = useState(
+    new Date().toLocaleTimeString("en-GB", {
+      timeStyle: "short",
+    })
+  );
+
+  // FORMATE TIME: 24 o'clock to 12 o'clock Format
+  const formatTimeSystem = (time) => {
+    let [hour, minutes] = time.split(":")
+    let ampm = hour <= 12 ? "AM" : "PM"
+    hour = hour % 12
+
+    const formattedTime = `${hour}:${minutes} ${ampm}`
+    return formattedTime
+  }
+  
+  console.log(formatTimeSystem(time));
+
+  const addEventHandler = (e) => {
+    e.preventDefault()
+    setModalShow(false)
+  }
+
   return (
     <>
-      <div className="py-4 px-4 shadow-md rounded-md bg-white">
-        <header className="flex flex-row justify-between items-center mb-6">
-          <h1 className="text-xl font-semibold">{headerText}</h1>
+      <div className="flex flex-col gap-6 py-4 px-4 shadow-md rounded-md bg-white">
+        <header className="flex flex-row justify-between items-center">
+          <div className="flex flex-col">
+            <h1 className="text-xl font-semibold">Add Event</h1>
+            <p className="text-sm flex flex-row gap-1 items-center text-gray-500">
+              <HiOutlineClock />
+              <span>
+                {selectedDate} - {formatTimeSystem(time)}
+              </span>
+            </p>
+          </div>
           <button
             onClick={() => setModalShow(false)}
             className="px-1 py-1 rounded-md border bg-white hover:bg-slate-50 group"
@@ -18,7 +60,7 @@ export default function CreateEventForm({
           </button>
         </header>
 
-        <form className="flex flex-col gap-6">
+        <form onSubmit={addEventHandler} className="flex flex-col gap-6">
           <div>
             <div className="border rounded-md py-2 px-2 relative bg-white">
               <label
@@ -29,6 +71,7 @@ export default function CreateEventForm({
               </label>
               <input
                 type="text"
+                // value={title}
                 className="w-full outline-none px-1"
                 id="event-title"
                 placeholder="Add Event Title"
@@ -53,6 +96,11 @@ export default function CreateEventForm({
                 </label>
                 <input
                   type="time"
+                  value={time}
+                  onChange={(e) => {
+                    setTime(e.target.value);
+                    console.log(e.target.value);
+                  }}
                   className="w-full outline-none px-1"
                   id="event-time"
                   required
@@ -72,15 +120,9 @@ export default function CreateEventForm({
                 Priority
               </label>
               <select className="w-full outline-none px-1" id="event-color">
-                <option value="high">
-                  High
-                </option>
-                <option value="medium">
-                  Medium
-                </option>
-                <option value="low">
-                  Low
-                </option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
               </select>
             </div>
           </div>
@@ -104,7 +146,7 @@ export default function CreateEventForm({
             type="submit"
             className="py-2 px-2 rounded-md bg-blue-500 text-white"
           >
-            {submitBtnText}
+            Add Event
           </button>
         </form>
       </div>

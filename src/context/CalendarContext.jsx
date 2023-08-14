@@ -39,7 +39,7 @@ export default function CalendarProvider({ children }) {
   const weekShortString = firstDayOfMonth.toLocaleDateString("en-us", {
     weekday: "short",
   });
-
+  
   const monthLongString = firstDayOfMonth.toLocaleDateString("en-us", {
     month: "long",
   });

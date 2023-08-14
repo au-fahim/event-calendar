@@ -8,27 +8,31 @@ import CreateEventForm from "../modal/CreateEventForm";
 
 export default function MonthCalendar() {
   const [modalShow, setModalShow] = useState(false)
+  const [selectedDate, setSelectedDate] = useState("")
   const calendarDate = useContext(CalendarContext)
-
   let {
     nav,
     setNav,
     dt,
     currMonth,
+    currYear,
     weekShortString,
+    monthLongString,
     firstDayOfMonth,
     lastDateOfMonth,
   } = calendarDate;
   
-
   const weekNames = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
-
-
   const lastDaysOfPrevMonth = weekNames.indexOf(weekShortString);
+
+  const showModalFunc = (date) => {
+    setSelectedDate(`${date} ${monthLongString}, ${currYear}`);
+    setModalShow(true);
+  }
 
 
   return (
-    <section className="py-4">
+    <main className="py-4">
       <div className="border-t border-l rounded-lg overflow-hidden">
         <header className="grid grid-cols-7 items-center justify-center bg-slate-50 py-2 border-b border-r">
           {weekNames.map((week, index) => (
@@ -41,7 +45,7 @@ export default function MonthCalendar() {
           ))}
         </header>
 
-        <main className="grid grid-cols-7 h-[78vh]">
+        <section className="grid grid-cols-7 h-[78vh]">
           {Array.from({ length: lastDaysOfPrevMonth }).map((_, index) => (
             <div
               key={index}
@@ -52,14 +56,17 @@ export default function MonthCalendar() {
           {Array.from({ length: lastDateOfMonth }).map((_, index) => (
             <div
               key={index}
-              onClick={() => setModalShow(true)}
+              onClick={() => showModalFunc(index + 1)}
               className={`border-r border-b hover:bg-slate-50 ${
                 index + 1 === new Date().getDate() &&
-                currMonth === new Date().getMonth() &&
+                currMonth === new Date().getMonth() && 
+                currYear === new Date().getFullYear() &&
                 "bg-slate-100 font-semibold text-black"
               }`}
             >
               <div className="py-2 px-3 text-sm md:text-base">{index + 1}</div>
+
+              {/* EVENT'S CONTENT */}
               <div className="flex flex-col gap-1">
                 {/* <button
                   onClick={(e) => e.stopPropagation()}
@@ -88,7 +95,7 @@ export default function MonthCalendar() {
               </div>
             </div>
           ))}
-        </main>
+        </section>
       </div>
 
       {/* CREATE NEW EVENT MODAL */}
@@ -96,12 +103,11 @@ export default function MonthCalendar() {
         <Modal setModalShow={setModalShow}>
           {/* CREATE NEW MODAL CONTENT */}
           <CreateEventForm
-            headerText="Add Event"
-            submitBtnText="Add Event"
             setModalShow={setModalShow}
+            selectedDate={selectedDate}
           />
         </Modal>
       )}
-    </section>
+    </main>
   );
 }
