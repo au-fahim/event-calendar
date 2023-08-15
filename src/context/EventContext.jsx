@@ -7,11 +7,11 @@ export const EventContext = createContext({
   eventsData: [
     {
       id: "",
-      title: "",
-      time: "",
       date: "",
+      time: "",
+      title: "",
+      details: "",
       category: "",
-      description: "",
     },
   ],
   addEvent: () => {},
@@ -34,12 +34,10 @@ export default function EventDataProvider({ children }) {
 
 
   const addEvent = (eventItem) => {
-    setEvents([...events, eventItem])
+    setEvents((prev) => [...prev, eventItem]);
   };
 
-  const updateEvent = () => {
-
-  }
+  const updateEvent = () => {}
   
   const removeEvent = (id) => {};
 

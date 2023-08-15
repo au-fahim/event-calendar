@@ -5,6 +5,7 @@ import { useContext, useState } from "react"
 
 import Modal from "../modal/Modal";
 import CreateEventForm from "../modal/CreateEventForm";
+import { EventContext } from '@/context/EventContext';
 
 export default function MonthCalendar() {
   const [modalShow, setModalShow] = useState(false)
@@ -22,11 +23,22 @@ export default function MonthCalendar() {
     lastDateOfMonth,
   } = calendarDate;
   
+  const { eventsData } = useContext(EventContext);
+
+  // console.log(JSON.parse(eventsData));
+
   const weekNames = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
   const lastDaysOfPrevMonth = weekNames.indexOf(weekShortString);
 
+  // FORMATE TEXT STYLE (e.g: 1 --> 01)
+  const formatNumber = (num) => {
+    return num < 10 ? `0${num}` : num
+  }
+
   const showModalFunc = (date) => {
-    setSelectedDate(`${date} ${monthLongString}, ${currYear}`);
+    setSelectedDate(
+      `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(date)}`
+    );
     setModalShow(true);
   }
 
