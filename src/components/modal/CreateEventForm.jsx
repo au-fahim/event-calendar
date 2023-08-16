@@ -1,12 +1,13 @@
 "use client"
 
 import { EventContext } from "@/context/EventContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { HiX, HiCheckCircle, HiOutlineClock, HiOutlineCalendar } from "react-icons/hi";
 
 // const time = new Date().getTime();
 
 export default function CreateEventForm({
+  modalShow,
   setModalShow,
   selectedDate,
 }) {
@@ -21,6 +22,15 @@ export default function CreateEventForm({
       timeStyle: "short",
     })
   );
+
+  const titleInputRef = useRef(null)
+
+  useEffect(() => {
+    if (modalShow && titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+  }, [modalShow]);
+  console.log(titleInputRef.current)
   
   // FORMATE TIME System: 24 o'clock to 12 o'clock Format
   const formatTimeSystem = (time) => {
@@ -51,7 +61,6 @@ export default function CreateEventForm({
   return (
     <>
       <div className="flex flex-col gap-7 py-4 px-4 shadow-md rounded-md bg-white">
-
         <header className="flex flex-row justify-between items-center">
           <div className="flex flex-col">
             <h1 className="text-xl font-semibold">Add Event</h1>
@@ -73,10 +82,10 @@ export default function CreateEventForm({
 
         <form onSubmit={addEventHandler} className="flex flex-col gap-6">
           <div>
-            <div className="border rounded-md py-2 px-2 relative bg-white">
+            <div className="border rounded-md py-2 px-2 relative bg-white focus-within:border-black text-gray-400 focus-within:text-black">
               <label
                 htmlFor="event-title"
-                className="text-sm absolute -top-3 left-2 bg-white px-1 text-gray-400 font-medium"
+                className="text-sm absolute -top-3 left-2 bg-white px-1 font-medium"
               >
                 Title
               </label>
@@ -84,9 +93,10 @@ export default function CreateEventForm({
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full outline-none px-1"
+                ref={titleInputRef}
                 id="event-title"
                 placeholder="Add Event Title"
+                className="w-full outline-none px-1"
                 required
               />
             </div>
@@ -99,10 +109,10 @@ export default function CreateEventForm({
 
           <div className="grid grid-cols-2 gap-1">
             <div>
-              <div className="border rounded-md py-2 px-2 relative bg-white">
+              <div className="border rounded-md py-2 px-2 relative bg-white focus-within:border-black text-gray-400 focus-within:text-black">
                 <label
                   htmlFor="event-time"
-                  className="text-sm absolute -top-3 left-2 bg-white px-1 text-gray-400 font-medium"
+                  className="text-sm absolute -top-3 left-2 bg-white px-1 font-medium"
                 >
                   Time
                 </label>
@@ -123,10 +133,10 @@ export default function CreateEventForm({
                   </span> */}
             </div>
 
-            <div className="border rounded-md py-2 px-2 relative bg-white">
+            <div className="border rounded-md py-2 px-2 relative bg-white focus-within:border-black text-gray-400 focus-within:text-black">
               <label
                 htmlFor="event-date"
-                className="text-sm absolute -top-3 left-2 bg-white px-1 text-gray-400 font-medium"
+                className="text-sm absolute -top-3 left-2 bg-white px-1 font-medium"
               >
                 Date
               </label>
@@ -149,10 +159,10 @@ export default function CreateEventForm({
             </div>
           </div>
 
-          <div className="border rounded-md py-2 px-2 relative bg-white h-20">
+          <div className="border rounded-md py-2 px-2 relative bg-white h-20 focus-within:border-black text-gray-400 focus-within:text-black">
             <label
               htmlFor="event-details"
-              className="text-sm absolute -top-3 left-2 bg-white px-1 text-gray-400 font-medium"
+              className="text-sm absolute -top-3 left-2 bg-white px-1 font-medium"
             >
               Description
             </label>

@@ -23,9 +23,7 @@ export default function MonthCalendar() {
     lastDateOfMonth,
   } = calendarDate;
   
-  const { eventsData } = useContext(EventContext);
-
-  // console.log(JSON.parse(eventsData));
+  const { events } = useContext(EventContext);
 
   const weekNames = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
   const lastDaysOfPrevMonth = weekNames.indexOf(weekShortString);
@@ -36,11 +34,11 @@ export default function MonthCalendar() {
   }
 
   const showModalFunc = (date) => {
-    setSelectedDate(
-      `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(date)}`
-    );
+    setSelectedDate(`${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(date)}`);
     setModalShow(true);
   }
+
+  console.log("Selected Date" + selectedDate)
 
 
   return (
@@ -58,6 +56,7 @@ export default function MonthCalendar() {
         </header>
 
         <section className="grid grid-cols-7 h-[78vh]">
+          {/* ARRAY OF PREVIOUS MONTH'S LAST DATES */}
           {Array.from({ length: lastDaysOfPrevMonth }).map((_, index) => (
             <div
               key={index}
@@ -65,13 +64,14 @@ export default function MonthCalendar() {
             ></div>
           ))}
 
+          {/* ARRAY OF CURRENT MONTH */}
           {Array.from({ length: lastDateOfMonth }).map((_, index) => (
             <div
               key={index}
               onClick={() => showModalFunc(index + 1)}
               className={`border-r border-b hover:bg-slate-50 ${
                 index + 1 === new Date().getDate() &&
-                currMonth === new Date().getMonth() && 
+                currMonth === new Date().getMonth() &&
                 currYear === new Date().getFullYear() &&
                 "bg-slate-100 font-semibold text-black"
               }`}
@@ -80,14 +80,22 @@ export default function MonthCalendar() {
 
               {/* EVENT'S CONTENT */}
               <div className="flex flex-col gap-1">
-                {/* <button
-                  onClick={(e) => e.stopPropagation()}
-                  className="pl-1 rounded-sm text-xs ml-2 text-white bg-blue-500 hover:bg-blue-600"
-                >
-                  <span className="line-clamp-1">
-                    Have a Meeting with Shovon.
-                  </span>
-                </button> */}
+                {events?.map((event) => {
+                  if (
+                    `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(index + 1)}` === event.date
+                  ) {
+                    
+                    return (
+                      <button
+                        onClick={(e) => e.stopPropagation()}
+                        className="rounded-sm text-xs ml-1 text-black bg-blue-100 hover:bg-blue-300"
+                      >
+                        <span className="line-clamp-1">{event.title}</span>
+                      </button>
+                    );
+                  }
+                })}
+
                 {/* <button
                   onClick={(e) => e.stopPropagation()}
                   className="pl-1 rounded-sm text-xs ml-2 text-white bg-orange-500 hover:bg-orange-600"
@@ -115,6 +123,7 @@ export default function MonthCalendar() {
         <Modal setModalShow={setModalShow}>
           {/* CREATE NEW MODAL CONTENT */}
           <CreateEventForm
+            modalShow={modalShow}
             setModalShow={setModalShow}
             selectedDate={selectedDate}
           />

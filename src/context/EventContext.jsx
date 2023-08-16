@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 
 
 export const EventContext = createContext({
-  eventsData: [
+  events: [
     {
       id: "",
       date: "",
