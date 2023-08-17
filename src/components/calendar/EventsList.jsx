@@ -1,26 +1,62 @@
+"use client"
+
+import { EventContext } from "@/context/EventContext";
+import { useContext } from "react";
+
 export default function EventsList () {
+  const {events} = useContext(EventContext)
+
+
   return (
-    <aside className="h-[78vh] border rounded-md flex flex-col justify-between overflow-hidden">
-      <div>
-        <div className="bg-slate-50 py-2 text-center">
-          <span>Events</span>
+    <aside className="h-[80vh] border rounded-md flex flex-col justify-between overflow-hidden">
+      <div className="overflow-hidden relative group">
+        <header className="bg-slate-50 flex flex-col gap-2 py-2 px-2 border-b z-40">
+          <select className="px-2 py-2 rounded-md border text-sm">
+            <option value="upcomming">Upcomming Events</option>
+            <option value="all">All Events</option>
+            <option value="completed">Completed Events</option>
+            <option value="bymonth">Selected Month</option>
+          </select>
+
           <nav>
-            <div className="py-1 px-1 bg-slate-50 flex flex-row">
-              <button className={`py-1 px-4 rounded-md text-sm`}>All</button>
-              <button className={`py-1 px-4 rounded-md text-sm`}>
-                Current Month
-              </button>
+            <div className="rounded-md text-sm overflow-hidden border bg-slate-50 flex flex-row">
+              <input
+                type="text"
+                className="w-full py-2 px-4 rounded-md"
+                placeholder="Search your event"
+              />
             </div>
           </nav>
-        </div>
+        </header>
 
-        <main className="mx-2 my-2">
-          <span className="text-center">Empty List</span>
+        <main className="h-3/4 ml-2 my-2 overflow-y-scroll">
+          {events.length > 0 ? (
+            <div className="flex flex-col items-stretch gap-0.5">
+              {events.map((event, index) => (
+                <div
+                  key={index}
+                  className="border-b py-2 px-2 rounded-md text-sm hover:bg-slate-50"
+                >
+                  <h1 className="capitalize">{event.title}</h1>
+                  <span className="text-xs">
+                    {event.date} - {event.time}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="h-full flex flex-col justify-center items-center">
+              <span>Empty List</span>
+            </div>
+          )}
         </main>
+        <div className="w-3 absolute right-0 bottom-2.5 h-3/4 bg-white group-hover:bg-transparent transition-all duration-500 opacity-100 group-hover:opacity-0 z-30 group-hover:-z-30"></div>
       </div>
 
       <footer className="mx-2 my-2">
-        <button className="w-full py-2 px-2 rounded-md bg-blue-500 text-white text-center">Add Event</button>
+        <button className="w-full py-2 px-2 rounded-md bg-blue-500 text-white text-center">
+          Add Event
+        </button>
       </footer>
     </aside>
   );
