@@ -38,11 +38,24 @@ export default function MonthCalendar() {
     setModalShow(true);
   }
 
-  console.log("Selected Date" + selectedDate)
 
+  // const [eventGroup, setEventGroup] = useState(null)
+  
+  const filteredEvent = Array.from({ length: lastDateOfMonth }).map(
+    (_, index) =>
+      events?.filter(
+        (event) =>
+          `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(
+            index + 1
+          )}` === event.date
+      )
+  );
+    
+    console.log(filteredEvent);
+      
 
   return (
-    <main className="py-4">
+    <>
       <div className="border-t border-l rounded-lg overflow-hidden">
         <header className="grid grid-cols-7 items-center justify-center bg-slate-50 py-2 border-b border-r">
           {weekNames.map((week, index) => (
@@ -79,22 +92,22 @@ export default function MonthCalendar() {
               <div className="py-2 px-3 text-sm md:text-base">{index + 1}</div>
 
               {/* EVENT'S CONTENT */}
-              <div className="flex flex-col gap-1">
-                {events?.map((event) => {
-                  if (
-                    `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(index + 1)}` === event.date
-                  ) {
-                    
-                    return (
+              <div className="grid grid-rows-3 gap-1">
+                
+                {events?.map(
+                  (event) =>
+                    `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(
+                      index + 1
+                    )}` === event.date && (
                       <button
+                        key={event.id}
                         onClick={(e) => e.stopPropagation()}
                         className="rounded-sm text-xs ml-1 text-black bg-blue-100 hover:bg-blue-300"
                       >
                         <span className="line-clamp-1">{event.title}</span>
                       </button>
-                    );
-                  }
-                })}
+                    )
+                )}
 
                 {/* <button
                   onClick={(e) => e.stopPropagation()}
@@ -129,6 +142,6 @@ export default function MonthCalendar() {
           />
         </Modal>
       )}
-    </main>
+    </>
   );
 }

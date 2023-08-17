@@ -34,8 +34,9 @@ export default function Header() {
     <header className="border-b sticky top-0 bg-white">
       <MainWrapper>
         <div className="flex flex-row gap-10 lg:gap-20 h-14">
+
           {/* LOGO */}
-          <div className="grow-0 flex flex-row gap-4 items-center">
+          <div className="grow-0 flex flex-row gap-4 items-center pl-2">
             <div className="md:hidden">
               <HiOutlineMenu size={24} />
             </div>

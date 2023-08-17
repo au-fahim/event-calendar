@@ -3,6 +3,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import CalendarProvider from '@/context/CalendarContext'
 import EventDataProvider from '@/context/EventContext'
+import EventsList from '@/components/calendar/EventsList'
+import MainWrapper from '@/components/MainWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,10 +20,18 @@ export default function RootLayout({ children }) {
         <EventDataProvider>
           <CalendarProvider>
             <Header />
-            {children}
+            <MainWrapper>
+              <main className="grid grid-cols-12 justify-between gap-4 py-4">
+                <section className="col-span-9">{children}</section>
+
+                <div className="col-span-3">
+                  <EventsList />
+                </div>
+              </main>
+            </MainWrapper>
           </CalendarProvider>
         </EventDataProvider>
       </body>
     </html>
-  )
+  );
 }

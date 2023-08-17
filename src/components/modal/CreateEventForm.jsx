@@ -12,51 +12,52 @@ export default function CreateEventForm({
   selectedDate,
 }) {
   const eventContext = useContext(EventContext);
-  const { eventsData, addEvent, updateEvent, removeEvent } = eventContext
+  const { eventsData, addEvent, updateEvent, removeEvent } = eventContext;
 
   const [title, setTitle] = useState("");
-  const [details, setDetails] = useState("")
-  const [date, setDate] = useState(selectedDate)
+  const [details, setDetails] = useState("");
+  const [date, setDate] = useState(selectedDate);
   const [time, setTime] = useState(
     new Date().toLocaleTimeString("en-GB", {
       timeStyle: "short",
     })
   );
 
-  const titleInputRef = useRef(null)
 
+  const titleInputRef = useRef(null);
+
+  // FOR DEFAULT FOCUSING ON TITLE_TEXT INPUT BOX AFTER MODAL SHOW
   useEffect(() => {
     if (modalShow && titleInputRef.current) {
       titleInputRef.current.focus();
     }
   }, [modalShow]);
-  console.log(titleInputRef.current)
-  
-  // FORMATE TIME System: 24 o'clock to 12 o'clock Format
+
+ 
+  // FORMAT (TIME DISPLAY SYSTEM) :: 24 HOUR CLOCK TO 12 HOUR CLOCK
   const formatTimeSystem = (time) => {
-    let [hour, minutes] = time.split(":")
-    let ampm = hour < 12 ? "AM" : "PM"
+    let [hour, minutes] = time.split(":");
+    let ampm = hour < 12 ? "AM" : "PM";
 
     hour = hour === "00" || hour === "12" ? "12" : hour % 12;
-    
-    console.log(hour);
-    const formattedTime = `${hour}:${minutes} ${ampm}`
-    return formattedTime
-  }
+
+    const formattedTime = `${hour}:${minutes} ${ampm}`;
+    return formattedTime;
+  };
 
   const addEventHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     addEvent({
       id: Math.floor(Math.random() * 100000),
       date,
       time,
       title,
-      details
+      details,
     });
 
-    setModalShow(false)
-  }
+    setModalShow(false);
+  };
 
   return (
     <>
@@ -145,7 +146,6 @@ export default function CreateEventForm({
                 value={date}
                 onChange={(e) => {
                   setDate(e.target.value);
-                  console.log(e.target.value);
                 }}
                 className="w-full outline-none px-1 text-sm"
                 id="event-date"
