@@ -9,8 +9,9 @@ export default function EventsList () {
 
   return (
     <aside className="h-[80vh] border rounded-md flex flex-col justify-between overflow-hidden">
+      {/* Event List Top Section */}
       <div className="overflow-hidden relative group">
-        <header className="bg-slate-50 flex flex-col gap-2 py-2 px-2 border-b z-40">
+        <header className="bg-slate-50 flex flex-col gap-2 py-2 px-2 border-b z-30">
           <select className="px-2 py-2 rounded-md border text-sm">
             <option value="upcomming">Upcomming Events</option>
             <option value="all">All Events</option>
@@ -50,7 +51,8 @@ export default function EventsList () {
             </div>
           )}
         </main>
-        <div className="w-3 absolute right-0 bottom-2.5 h-3/4 bg-white group-hover:bg-transparent transition-all duration-500 opacity-100 group-hover:opacity-0 z-30 group-hover:-z-30"></div>
+        {/* For Scroll Bar Cover */}
+        {/* <div className="w-2.5 h-4/5 absolute right-0 bottom-0 bg-white group-hover:bg-transparent transition-all duration-500 opacity-100 group-hover:opacity-0 z-20 group-hover:-z-30"></div> */}
       </div>
 
       <footer className="mx-2 my-2">
