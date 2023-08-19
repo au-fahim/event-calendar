@@ -15,6 +15,7 @@ export default function MonthCalendar() {
     nav,
     setNav,
     dt,
+    currDate,
     currMonth,
     currYear,
     weekShortString,
@@ -41,18 +42,20 @@ export default function MonthCalendar() {
 
   // const [eventGroup, setEventGroup] = useState(null)
   
-  const filteredEvent = Array.from({ length: lastDateOfMonth }).map(
-    (_, index) =>
-      events?.filter(
-        (event) =>
-          `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(
-            index + 1
-          )}` === event.date
-      )
-  );
-    
-    console.log(filteredEvent);
-      
+  // const filteredEvent = Array.from({ length: lastDateOfMonth }).map(
+  //   (_, index) =>
+  //     events?.filter(
+  //       (event) =>
+  //         `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(
+  //           index + 1
+  //         )}` === event.date
+  //     )
+  // );
+
+  console.log("Current Date: " + currDate);
+  console.log("Current Month: " + currMonth);
+  console.log("Current Year: " + currYear);
+  console.log("main Date: " + dt)
 
   return (
     <>
@@ -83,17 +86,17 @@ export default function MonthCalendar() {
               key={index}
               onClick={() => showModalFunc(index + 1)}
               className={`border-r border-b hover:bg-slate-50 ${
-                index + 1 === new Date().getDate() &&
+                index + 1 === currDate &&
                 currMonth === new Date().getMonth() &&
-                currYear === new Date().getFullYear() &&
-                "bg-slate-100 font-semibold text-black"
+                currYear === new Date().getFullYear()
+                  ? "bg-slate-100 font-semibold text-black"
+                  : ""
               }`}
             >
               <div className="py-2 px-3 text-sm md:text-base">{index + 1}</div>
 
               {/* EVENT'S CONTENT */}
               <div className="grid grid-rows-3 gap-1">
-                
                 {events?.map(
                   (event) =>
                     `${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(

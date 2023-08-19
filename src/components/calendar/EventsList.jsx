@@ -6,6 +6,17 @@ import { useContext } from "react";
 export default function EventsList () {
   const {events} = useContext(EventContext)
 
+  const allCalendarEvents = events.map((event, index) => (
+    <div
+      key={index}
+      className="border-b py-2 px-2 rounded-md text-sm hover:bg-slate-50"
+    >
+      <h1 className="capitalize">{event.title}</h1>
+      <span className="text-xs">
+        {event.date} - {event.time}
+      </span>
+    </div>
+  ));
 
   return (
     <aside className="h-[80vh] border rounded-md flex flex-col justify-between overflow-hidden">
@@ -33,17 +44,7 @@ export default function EventsList () {
         <main className="h-3/4 ml-2 my-2 overflow-y-scroll">
           {events.length > 0 ? (
             <div className="flex flex-col items-stretch gap-0.5">
-              {events.map((event, index) => (
-                <div
-                  key={index}
-                  className="border-b py-2 px-2 rounded-md text-sm hover:bg-slate-50"
-                >
-                  <h1 className="capitalize">{event.title}</h1>
-                  <span className="text-xs">
-                    {event.date} - {event.time}
-                  </span>
-                </div>
-              ))}
+              {allCalendarEvents}
             </div>
           ) : (
             <div className="h-full flex flex-col justify-center items-center">
