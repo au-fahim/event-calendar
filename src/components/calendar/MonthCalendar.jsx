@@ -1,13 +1,14 @@
 "use client"
 
 import { CalendarContext } from "@/context/CalendarContext"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 import Modal from "../modal/Modal";
 import CreateEventForm from "../modal/CreateEventForm";
 import { EventContext } from '@/context/EventContext';
 
 export default function MonthCalendar() {
+  const [runningDate, setRunningDate] = useState(new Date())
   const [modalShow, setModalShow] = useState(false)
   const [selectedDate, setSelectedDate] = useState("")
   const calendarDate = useContext(CalendarContext)
@@ -29,6 +30,12 @@ export default function MonthCalendar() {
   const weekNames = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
   const lastDaysOfPrevMonth = weekNames.indexOf(weekShortString);
 
+
+  useEffect(() => {
+    setRunningDate(new Date())
+  }, [currMonth, currYear])
+
+
   // FORMATE TEXT STYLE (e.g: 1 --> 01)
   const formatNumber = (num) => {
     return num < 10 ? `0${num}` : num
@@ -38,6 +45,7 @@ export default function MonthCalendar() {
     setSelectedDate(`${currYear}-${formatNumber(currMonth + 1)}-${formatNumber(date)}`);
     setModalShow(true);
   }
+
 
 
   // const [eventGroup, setEventGroup] = useState(null)
@@ -60,7 +68,7 @@ export default function MonthCalendar() {
   return (
     <>
       <div className="border-t border-l rounded-lg overflow-hidden">
-        <header className="grid grid-cols-7 items-center justify-center bg-slate-50 py-2 border-b border-r">
+        <header className="grid grid-cols-7 items-center justify-center bg-gray-50 py-2 border-b border-r">
           {weekNames.map((week, index) => (
             <div
               key={index}
@@ -77,7 +85,7 @@ export default function MonthCalendar() {
             <div
               key={index}
               className={`border-r border-b bg-transparent select-none`}
-            ></div>
+            />
           ))}
 
           {/* ARRAY OF CURRENT MONTH */}
@@ -86,9 +94,9 @@ export default function MonthCalendar() {
               key={index}
               onClick={() => showModalFunc(index + 1)}
               className={`border-r border-b hover:bg-slate-50 ${
-                index + 1 === currDate &&
-                currMonth === new Date().getMonth() &&
-                currYear === new Date().getFullYear()
+                index + 1 === runningDate.getDate() &&
+                currMonth === runningDate.getMonth() &&
+                currYear === runningDate.getFullYear()
                   ? "bg-slate-100 font-semibold text-black"
                   : ""
               }`}

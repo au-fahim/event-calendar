@@ -24,10 +24,10 @@ export default function () {
   return (
     <>
       {/* DAY, WEEK, MONTH NAVIGATION */}
-      <div className="py-1 px-1 bg-slate-50 flex flex-row rounded-md border">
+      <div className="py-1 px-1 bg-gray-50 flex flex-row gap-1 rounded-md border">
         {navItem.map((item, index) => (
           <Link href={item.link} key={index}>
-            <button className={`py-1 px-4 rounded-md text-sm  ${pathname == item.link ? "active-nav-btn" : "text-gray-400"}`}>
+            <button className={`py-1 px-4 rounded-md text-sm ${pathname == item.link ? "active-nav-btn" : "text-gray-400/80 hover:bg-gray-100 hover:text-gray-400"}`}>
               {item.name}
             </button>
           </Link>
