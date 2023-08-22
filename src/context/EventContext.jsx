@@ -39,7 +39,10 @@ export default function EventDataProvider({ children }) {
 
   const updateEvent = () => {}
   
-  const removeEvent = (id) => {};
+  const removeEvent = (id) => {
+    const updatedEvents = events.filter(event => event.id !== id)
+    setEvents(updatedEvents)
+  };
 
   let initialState = {
     events,

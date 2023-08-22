@@ -2,26 +2,32 @@
 
 import { EventContext } from "@/context/EventContext";
 import { useContext } from "react";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 export default function EventsList () {
-  const {events} = useContext(EventContext)
+  const {events, addEvent, removeEvent} = useContext(EventContext)
 
   const allCalendarEvents = events.map((event, index) => (
     <div
       key={index}
-      className="border-b py-2 px-2 rounded-md text-sm hover:bg-slate-50"
+      className="border-b py-2 px-2 rounded-md text-sm hover:bg-slate-50 flex flex-row justify-between items-center"
     >
-      <h1 className="capitalize">{event.title}</h1>
-      <span className="text-xs">
-        {event.date} - {event.time}
-      </span>
+      <div>
+        <h1 className="capitalize">{event.title}</h1>
+        <span className="text-xs">
+          {event.date} - {event.time}
+        </span>
+      </div>
+      <button className="w-8 h-8 rounded-md bg-white flex items-center justify-center hover:text-red-500" onClick={() => removeEvent(event.id)}>
+        <HiOutlineTrash size={20} />
+      </button>
     </div>
   ));
 
   return (
     <aside className="h-[80vh] border rounded-md flex flex-col justify-between overflow-hidden">
       {/* Event List Top Section */}
-      <div className="overflow-hidden relative group">
+      <div className="h-full overflow-hidden relative group">
         <header className="bg-slate-50 flex flex-col gap-2 py-2 px-2 border-b z-30">
           <select className="px-2 py-2 rounded-md border text-sm">
             <option value="upcomming">Upcomming Events</option>
@@ -48,7 +54,7 @@ export default function EventsList () {
             </div>
           ) : (
             <div className="h-full flex flex-col justify-center items-center">
-              <span>Empty List</span>
+              <span className="text-gray-300">Empty List</span>
             </div>
           )}
         </main>
