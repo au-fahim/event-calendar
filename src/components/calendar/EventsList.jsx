@@ -1,13 +1,19 @@
 "use client"
 
 import { EventContext } from "@/context/EventContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 
 export default function EventsList () {
   const {events, addEvent, removeEvent} = useContext(EventContext)
 
-  const allCalendarEvents = events.map((event, index) => (
+  const [query, setQuery] = useState("")
+
+  const filteredEvent = events.filter((event) => {
+    return event.title.toLowerCase().includes(query.toLowerCase())
+  })
+
+  const allCalendarEvents = filteredEvent.map((event, index) => (
     <div
       key={index}
       className="border-b py-2 px-2 rounded-md text-sm hover:bg-slate-50 flex flex-row justify-between items-center"
@@ -28,7 +34,7 @@ export default function EventsList () {
     <aside className="h-[80vh] border rounded-md flex flex-col justify-between overflow-hidden">
       {/* Event List Top Section */}
       <div className="h-full overflow-hidden relative group">
-        <header className="bg-slate-50 flex flex-col gap-2 py-2 px-2 border-b z-30">
+        <header className="bg-gray-50 flex flex-col gap-2 py-2 px-2 border-b z-30">
           <select className="px-2 py-2 rounded-md border text-sm">
             <option value="upcomming">Upcomming Events</option>
             <option value="all">All Events</option>
@@ -39,16 +45,17 @@ export default function EventsList () {
           <nav>
             <div className="rounded-md text-sm overflow-hidden border bg-slate-50 flex flex-row">
               <input
-                type="text"
+                type="search"
+                onChange={(e) => setQuery(e.target.value)}
                 className="w-full py-2 px-4 rounded-md"
-                placeholder="Search your event"
+                placeholder="Find your event"
               />
             </div>
           </nav>
         </header>
 
         <main className="h-3/4 ml-2 my-2 overflow-y-scroll">
-          {events.length > 0 ? (
+          {filteredEvent.length > 0 ? (
             <div className="flex flex-col items-stretch gap-0.5">
               {allCalendarEvents}
             </div>

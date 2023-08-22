@@ -68,7 +68,7 @@ export default function MonthCalendar() {
   return (
     <>
       <div className="border-t border-l rounded-lg overflow-hidden">
-        <header className="grid grid-cols-7 items-center justify-center bg-slate-50 py-2 border-b border-r">
+        <header className="grid grid-cols-7 items-center justify-center bg-gray-50 py-2 border-b border-r">
           {weekNames.map((week, index) => (
             <div
               key={index}
